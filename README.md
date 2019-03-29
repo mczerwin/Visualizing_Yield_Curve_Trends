@@ -7,4 +7,10 @@
 
 #Sample data so that it can fit into the figure using sample_data.py
 
-#Create graph using visualize_data.py
+#Create heat map using visualize_data.py
+
+#Compile the daily slopes of Rate vs. Log(Bond Length) in the main() function of main.py
+
+#Visualize the correlation between the slope of the Yield Curve and SPY with visualize_trends() in main.py
+
+
