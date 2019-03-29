@@ -65,7 +65,7 @@ def visualize_best_fits():
     plt.xlabel('Bond Lenghths in Months(Logarithmic Scale)')
     
     plt.ylabel('Interest Rate')
-    plt.ylim(bottom=0)
+    plt.ylim(bottom=0,top=6)
     
     plt.title('Treasury Rates as of Mar 5, 2007')
     plt.savefig('03052007_bestfit.png')
