@@ -14,16 +14,18 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import os.path
 from pathlib import Path
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 
 
 def getYcData(year):
     #url of page of interst
     site = "https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yieldYear&year={}".format(year)
-    
+
     #define page
     page = urllib.request.urlopen(site)
-    
+
     #define html
     soup = BeautifulSoup(page)
     
@@ -98,9 +100,6 @@ def getDayOfYear(date):
     day = date.timetuple().tm_yday
     return day
 
-
-getYcData(2015)
-getYcData(2016)
-getYcData(2017)
-getYcData(2018)
-getYcData(2019)
+for y in range(2015, 2020):
+    print('Getting data for year', y)
+    getYcData(y)

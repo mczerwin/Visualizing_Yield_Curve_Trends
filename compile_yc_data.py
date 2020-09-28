@@ -6,6 +6,15 @@ Created on Sat Mar 23 12:29:19 2019
 """
 
 import pandas as pd
+import os
+
+
+def avgRates(df):
+    #If the datatype condition is false, the .strip() will not be run so it won't throw an error on float types
+    if isinstance(df['2 mo'], str) and df['2 mo'].strip() == 'N/A':
+        return round((df['1 mo'] + df['3 mo'])/2, 2)
+    else:
+        return df['2 mo']
 
 def compile_data(start_year, end_year):
     
@@ -19,10 +28,19 @@ def compile_data(start_year, end_year):
     
     
     #dropping 2 month bond due to n/a data
-    main_df.drop(['2 mo'], axis = 1,inplace = True )
-    
+
+    float_cols = [x for x in main_df.columns if x != '2 mo']
+    print(float_cols)
+    for col in float_cols:
+        main_df[col] = main_df[col].astype(float)
+
+    main_df['2 mo'] = main_df[['1 mo', '2 mo', '3 mo']].apply(avgRates, axis = 1)
+
+
+
     #output to csv
     file_name = 'Data/yc_data_' + str(start_year) + '_' + str(end_year)+'.csv'
+    os.remove(file_name)
     main_df.to_csv(file_name)
     
     return file_name
