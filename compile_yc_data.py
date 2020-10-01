@@ -74,7 +74,7 @@ def add_spy_data():
     final_df_outer = spy_df.merge(yc_df, how='outer', on='Date1')
     # print(final_df.head(5))
 
-    final_df_outer.to_csv('final_out_join.csv')
+    final_df_outer.to_csv('Data/final_out_join.csv')
 
     final_df_inner = spy_df.merge(yc_df, how='inner', on='Date1')
     final_df_inner.drop(columns = ['Date_x', 'Date_y'], inplace = True)

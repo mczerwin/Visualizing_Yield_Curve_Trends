@@ -1,16 +1,15 @@
 # Visualizing_Yield_Curve_Trends
 
-#Pulling data for select years using web_scraping_yield_curve.py
-#make sure a Data file is in the same file as the scripts
+After pulling this repo, install requirements if necessary.
 
-#Compile data using start and end year variables using compile_yc_data.py
+The main functions are in view_heatmap.py, view_surface.py, view_spy_trend.py and best_fit_examples.py.
 
-#Sample data so that it can fit into the figure using sample_data.py
+The first 3 scripts take two arguments, a starting year and an ending year. 
 
-#Create heat map using visualize_data.py
+view_heatmap and view_surface both show how the yield curve changes over time. view_spy_trend compares the how slope of the linear regression fit of the yield curve changes over time, as well as the S&P500 index over time.
 
-#Compile the daily slopes of Rate vs. Log(Bond Length) in the main() function of main.py
-
-#Visualize the correlation between the slope of the Yield Curve and SPY with visualize_trends() in main.py
+best_fit_examples shows examples of these linear regression slopes, as well as a more accurate cubic fit, since the yield curve is based off of a cubic spline model. 
+    
+    
 
 
