@@ -32,13 +32,13 @@ def visualize_best_fits():
     xlabels03 = [months_to_years(x) for x in x_03]
    
     plt.xticks(log_x_03,xlabels03,rotation = 80)
-    plt.xlabel('Bond Lenghths in Months(Logarithmic Scale)')
+    plt.xlabel('Bond Lengths in Months(Logarithmic Scale)')
     
     plt.ylabel('Interest Rate')
     plt.ylim(bottom=0)
     
     plt.title('Treasury Rates as of Oct 3, 2003')
-    plt.savefig('10032003_bestfit.png')
+    plt.savefig('Images/10032003_bestfit.png')
     plt.show()
     
     
@@ -68,7 +68,7 @@ def visualize_best_fits():
     plt.ylim(bottom=0,top=6)
     
     plt.title('Treasury Rates as of Mar 5, 2007')
-    plt.savefig('03052007_bestfit.png')
+    plt.savefig('Images/03052007_bestfit.png')
     plt.show()
     
     '''
@@ -91,15 +91,37 @@ def visualize_best_fits():
     
     xlabels19 = [months_to_years(x) for x in x_19]
     plt.xticks(log_x_19,xlabels19,rotation = 80)
-    plt.xlabel('Bond Lenghths in Months(Logarithmic Scale)')
+    plt.xlabel('Bond Lengths in Months(Logarithmic Scale)')
     
     plt.ylabel('Interest Rate')
     plt.ylim(bottom=0)
     
     plt.title('Treasury Rates as of Mar 29, 2019')
-    plt.savefig('03292019_bestfit.png')
+    plt.savefig('Images/03292019_bestfit.png')
     plt.show()
-    
+
+    '''
+    Cubic fit
+    '''
+
+    cubic = np.polyfit(log_x_19,y_19,3)
+
+    cubic_fit_19 = [cubic[0]*(x**3) + cubic[1]*(x**2) + cubic[2]*x  + cubic[3] for x in log_x_19]
+
+    plt.figure(4)
+    plt.plot(log_x_19, y_19, 'o', color='green')
+    plt.plot(log_x_19, cubic_fit_19, color='green')
+
+    xlabels19 = [months_to_years(x) for x in x_19]
+    plt.xticks(log_x_19,xlabels19,rotation = 80)
+    plt.xlabel('Bond Lengths in Months(Logarithmic Scale)')
+
+    plt.ylabel('Interest Rate')
+    plt.ylim(bottom=0)
+
+    plt.title('Treasury Rates as of Mar 29, 2019')
+    plt.savefig('Images/03292019_cubicfit.png')
+    plt.show()
     
     
 def months_to_years(mo):

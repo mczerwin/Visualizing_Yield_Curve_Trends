@@ -16,6 +16,8 @@ from mpl_toolkits.mplot3d import axes3d
 import os.path
 from pathlib import Path
 import math
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 def main(start,end):
     main_df = pd.DataFrame()
@@ -29,6 +31,7 @@ def main(start,end):
             getYcData(i)
         df = pd.read_csv(CSVFILE)
         df.set_index('Date',inplace=True)
+        df['2 mo'] = df.apply(avgRates, axis = 1)
         dfclean=drop_na_cols(df)
         cleanfile = 'Data/yield_curve_clean_{}.csv'.format(i)
         if not Path(cleanfile).exists():
@@ -80,7 +83,13 @@ def get_stats(df):
    df['log_slope'] = slope1
    
    return df
-   
+
+def avgRates(df):
+    #If the datatype condition is false, the .strip() will not be run so it won't throw an error on float types
+    if isinstance(df['2 mo'], str) and df['2 mo'].strip() == 'N/A':
+        return round((df['1 mo'] + df['3 mo'])/2, 2)
+    else:
+        return df['2 mo']
     
 def getYcData(year):
     #url of page of interst
@@ -154,19 +163,18 @@ def numeric_length(bondLength):
         months = int(bondLength[0:2])*12
     else:
         months = bondLength
-    
     return months
 
 #converts date to numeric day of year, i.e. Feb 2 = 33
 def getDayOfYear(date):
-    date = datetime_object = datetime.strptime(date, '%m/%d/%y')
+    date = datetime.strptime(date, '%m/%d/%y')
     day = date.timetuple().tm_yday
     return day
 
 def add_spy_data():
     yc_df = pd.read_csv('all_slopes.csv')
     
-    spy_df = pd.read_csv('Data/SPY.csv')
+    spy_df = pd.read_csv('../Data/SPY.csv')
     
     yc_date = []
     spy_date = []
@@ -211,12 +219,12 @@ def add_spy_data():
     
     
 def visualiz_trends():
-    df= pd.read_csv('Data/Compiled_data.csv')
+    df= pd.read_csv('../Data/yc_data_2015_2019_sample.csv')
     df.set_index('Date',inplace=True)
     
     dates = df.index.values
     data1 = df['Adj. Close'].values
-    data2 = df['yc_slope'].values
+    data2 = df['log_slope'].values
     
     fig, ax1 = plt.subplots()
     
@@ -240,8 +248,8 @@ def visualiz_trends():
     plt.savefig('Yield_Curve_Trends_vs_SPY.png')
     plt.show()
     
-visualiz_trends()
-#main(1993,2019) 
+# visualiz_trends()
+main(2015,2020)
 #add_spy_data()
     
 
